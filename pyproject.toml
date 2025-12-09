@@ -7,8 +7,8 @@ requires-python = ">=3.10"
 dependencies = [
     "detritalpy>=1.4.8",
     "marimo>=0.18.3",
-    "matplotlib>=3.10.7",
     "numpy>=2.2.6",
     "pandas>=2.3.3",
+    "plotly>=6.5.0",
     "quak>=0.3.3",
 ]
