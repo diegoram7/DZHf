@@ -50,25 +50,6 @@ def _(pd):
     return (df,)
 
 
-@app.cell
-def _(df):
-    #Filtrar outliers
-    q1, q3 = df["t(Ga)"].quantile([.05, .95])
-    IRQ = q3 - q1
-    print(q1, q3)
-
-    df_good = df[
-        mask := df["t(Ga)"].between(q1-IRQ, q3+IRQ)
-    ]
-    df_bad = df[-mask]
-
-    print(f"Size original: {df.shape}")
-    print(f"Size filtered: {df_good.shape}")
-    print(f"Ratio: {df_good.shape[0]/df.shape[0]}")
-    df_bad
-    return (df_good,)
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
@@ -117,10 +98,30 @@ def _(mo):
 
 
     df_with_ehf=df.assign(ehf=_ehf)
+@app.cell
+def _(df):
+    #Calcular cuatiles q1 y q3 de las edades
+    q1, q3 = df["t(Ga)"].quantile([.05, .95])
+    IRQ = q3 - q1
+    print(q1, q3)
 
-    df_with_ehf
+    #Separar los datos outliers y errores muy altos
+    df_good = df[
+        mask := (
+            df["t(Ga)"].between(q1 - IRQ, q3 + IRQ)
+            & (df["2s"] < 2.5)
+        )
+    ]
+    df_bad = df[-mask] #Lista de outliers
 
-    return Hf176_Hf177, decaimiento, df_with_ehf
+    print(f"Size original: {df.shape}")
+    print(f"Size filtered: {df_good.shape}")
+    print(f"Ratio: {df_good.shape[0]/df.shape[0]}")
+
+    #Datos filtrados
+    df_bad
+    return (df_good,)
+
 
 @app.cell(hide_code=True)
 def _(mo):
