@@ -11,6 +11,11 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: astral-sh/setup-uv@v5
+            - uses: jacobtomlinson/gha-find-replace@v3
+              with:
+                  find: 'DATA_DIR = Path("data/")'
+                  replace: 'DATA_DIR = mo.notebook_location() / "public/data/'
+                  files: "notebooks/main.py"
             - name: 📄 Export notebook
               run: |
                   uv run marimo export html-wasm notebooks/main.py -o site --mode run
@@ -38,3 +43,4 @@ jobs:
               uses: actions/deploy-pages@v4
               with:
                   artifact_name: github-pages
+# "
