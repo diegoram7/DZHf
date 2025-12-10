@@ -67,7 +67,7 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
-    # Calculate $\epsilon$-Hafnium
+    # Calcular $\epsilon$-Hafnium y propagar errores
     """)
     return
 
@@ -103,6 +103,12 @@ def _(Hf_CHUR, Lu_CHUR, df, df_good, lam_Lu, np):
     _numerador = Hf176_Hf177 - Lu176_Hf177*decaimiento
     _denominador = Hf_CHUR - Lu_CHUR*decaimiento
     _ehf = 10_000 * ((_numerador/_denominador)-1)
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    #Filtrar outliers y datos eHf con errores altos
+    """)
+    return
 
 
     df_with_ehf=df.assign(ehf=_ehf)
@@ -110,6 +116,13 @@ def _(Hf_CHUR, Lu_CHUR, df, df_good, lam_Lu, np):
     df_with_ehf
 
     return Hf176_Hf177, decaimiento, df_with_ehf
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    #Figura $\epsilon$-Hafnium vs Edad (Ma)
+    """)
+    return
 
 
 @app.cell
