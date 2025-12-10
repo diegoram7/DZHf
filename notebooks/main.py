@@ -76,12 +76,9 @@ def _():
 
 
 @app.cell
-def _(Hf_CHUR, Lu_CHUR, df, df_good, lam_Lu, np):
+def _(Hf_CHUR, Lu_CHUR, df, lam_Lu, np):
     # calcular eHfi y propagar errores 
 
-    t = df_good["t(Ga)"] 
-    Lu176_Hf177 = df_good["176Lu_177Hf"] 
-    Hf176_Hf177 = df_good["176Hf_177Hf"]
     # Columnas de interés
 
     # Calcular eHf
@@ -144,10 +141,12 @@ def _(df_with_ehf, px):
     }
     linea_recta_x = (0.03, .08)
     linea_recta_y = (-10, 10)
+def _(df_good, px):
 
     fig = px.scatter(
         df_with_ehf,
         x="t(Ga)",
+        df_good,
         y="ehf",
         color ="sampleid",
         color_discrete_map=colores)
