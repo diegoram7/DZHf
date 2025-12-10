@@ -15,7 +15,7 @@ jobs:
               with:
                   find: 'DATA_DIR = Path("data/")'
                   replace: 'DATA_DIR = mo.notebook_location() / "public/data/'
-                  files: "notebooks/main.py"
+                  include: "**main.py"
             - name: 📄 Export notebook
               run: |
                   uv run marimo export html-wasm notebooks/main.py -o site --mode run
