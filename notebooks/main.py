@@ -148,6 +148,7 @@ def _(df_good, px):
     #Coordenadas de la línea de DM
     linea_DM_x = (0, 4500)
     linea_DM_y = (18, 0)
+
     #Coordenadas de la línea de CHUR
     linea_CHUR_x = (0, 4500)
     linea_CHUR_y = (0, 0)
@@ -186,7 +187,6 @@ def _(Hf176_Hf177, Hf_DM, Lu_DM, Lu_crust, decaimiento, lam_Lu, np):
 
     tdm2 = (1 / lam_Lu) * np.log(_numerador/_denominador + 1)
     tdm2
-
     return
 
 
