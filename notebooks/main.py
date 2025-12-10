@@ -14,13 +14,16 @@ def _(mo):
 
 @app.cell
 def _():
-    import quak
+    from pathlib import Path
+
     import pandas as pd
     import marimo as mo
     import numpy as np
     import plotly.express as px
     import plotly.graph_objects as go
-    return mo, np, pd, px
+
+    DATA_DIR = Path("data/")
+    return DATA_DIR, mo, np, pd, px
 
 
 @app.cell(hide_code=True)
@@ -32,9 +35,9 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
+def _(DATA_DIR, pd):
     #Crear dataframe 
-    df = pd.read_excel(r'data\Hf.xlsx').rename(columns = {
+    df = pd.read_excel(DATA_DIR / 'Hf.xlsx').rename(columns = {
         "176Hf/177Hf":"176Hf_177Hf",
         "176Lu/177Hf":"176Lu_177Hf",
         "176Hf/177Hf(t)": "176Hf_177Hf(t)",
