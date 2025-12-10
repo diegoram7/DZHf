@@ -15,7 +15,7 @@ jobs:
               run: |
                   uv run marimo export html-wasm notebooks/main.py -o site --mode edit
             - run: |
-                  cp -r data site
+                  mkdir site/public && cp -r data site/public
             - name: 📦 Upload Pages Artifact
               uses: actions/upload-pages-artifact@v3
               with:
