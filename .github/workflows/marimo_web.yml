@@ -9,9 +9,11 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v4
+            - uses: astral-sh/setup-uv@v5
             - name: 📄 Export notebook
               run: |
-                  marimo export html-wasm notebooks/main.py -o site --mode run
+                  uv run marimo export html-wasm notebooks/main.py -o site --mode run
 
             - name: 📦 Upload Pages Artifact
               uses: actions/upload-pages-artifact@v3
