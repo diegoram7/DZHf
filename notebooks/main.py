@@ -56,12 +56,6 @@ def _(DATA_DIR, pd):
     return (df,)
 
 
-@app.cell
-def _(df):
-    df["sampleid"].unique()
-    return
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
@@ -340,7 +334,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Two‑stage crustal model age (Para circones antiguos)
+    #Two‑stage crustal model age (Para circones antiguos, no valido para Panamá)
     """)
     return
 
