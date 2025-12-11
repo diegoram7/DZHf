@@ -320,10 +320,19 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Rangos de valores iniciales de εHf (solamente para datos con errores 2sigma < 2.0):
+    Rangos de valores iniciales de εHf (solamente para valores con 2sigma < 2.0):
+
     Circones magmáticos:
-    Plutón de Cerro Montuoso (060072):  (+4.9 - +9.0)
-    Plutón de Parita (060065 - 060067): (+4.3 - +11.0)
+    Plutón de Cerro Montuoso (060072):  (+4.9 a +9.0)
+    Plutón de Parita (060065 - 060067): (+4.3 a +11.0)
+
+    Circones detriticos:
+    Arena de rio Diablo (070242):       (+3.7 a +13.1), presenta un outlier de -3.2
+    Formación Cobachón (300351):        (+2.6 a +11.6)
+    Formación Gatuncillo (300339):      (+7.1 a +15.4)
+    Arena de rio Mamoni (300334):       (+8.2 a 14.0)
+
+    Los resultados obtenidos indican que el sistema magmático formado durante ca. 70-35 Ma se caracteriza por una firma juvenil, derivada de magmatismo mantélico, sin aporte de corteza continental antigua.
     """)
     return
 
