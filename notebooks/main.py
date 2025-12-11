@@ -228,6 +228,66 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
         showarrow=False
     )
 
+    #Rectangulos de rocas fuentes
+    #Pluton de Parita
+    fig.add_trace(
+        go.Scatter(
+            x=[36, 37, 37, 36, 36],
+            y=[-10, -10, 17, 17, -10],
+            line=dict(color="black", width=0),
+            fill="toself",
+            fillcolor="rgba(255, 0, 0, 0.1)",
+            name="Pluton de Parita"
+        )
+    )
+
+    #Pluton de Mamoní
+    fig.add_trace(
+        go.Scatter(
+            x=[39, 49, 49, 39, 39],
+            y=[-10, -10, 17, 17, -10],
+            line=dict(color="black", width=0),
+            fill="toself",
+            fillcolor="rgba(150, 0, 200, 0.2)",
+            name="Pluton de Mamoni"
+        )
+    )
+
+    #Pluton de Valle Rico
+    fig.add_trace(
+        go.Scatter(
+            x=[48, 49, 49, 48, 48],
+            y=[-10, -10, 17, 17, -10],
+            line=dict(color="black", width=0),
+            fill="toself",
+            fillcolor="rgba(0, 200, 0, 0.25)",
+            name="Pluton de Valle Rico"
+        )
+    )
+
+    #Pluton de Cerro Azul
+    fig.add_trace(
+        go.Scatter(
+            x=[54, 59, 59, 54, 54],
+            y=[-10, -10, 17, 17, -10],
+            line=dict(color="black", width=0),
+            fill="toself",
+            fillcolor="rgba(255, 140, 0, 0.3)",
+            name="Pluton de Cerro Azul"
+        )
+    )
+
+    #Pluton de Cerro Montuoso
+    fig.add_trace(
+        go.Scatter(
+            x=[66, 67, 67, 66, 66],
+            y=[-10, -10, 17, 17, -10],
+            line=dict(color="black", width=0),
+            fill="toself",
+            fillcolor="rgba(0, 102, 255, 0.15)",
+            name="Pluton de Cerro Montuoso"
+        )
+    )
     fig
     return
 
