@@ -23,7 +23,7 @@ def _():
     import plotly.graph_objects as go
 
     DATA_DIR = Path("data/")
-    return DATA_DIR, mo, np, pd, px
+    return DATA_DIR, go, mo, np, pd, px
 
 
 @app.cell(hide_code=True)
@@ -48,9 +48,18 @@ def _(DATA_DIR, pd):
     df[["sampleid", "number"]] = df['Sample'].str.split('_', expand=True, n=1) 
 
     #Conversión de unidades de Ga a Ma
-    df["t(Ma)"] = df["t(Ga)"]*1000 
+    df["t(Ma)"] = df["t(Ga)"]*1000
+
+    #Agregar columna de tipo de roca de la muestra
+
     df
     return (df,)
+
+
+@app.cell
+def _(df):
+    df["sampleid"].unique()
+    return
 
 
 @app.cell(hide_code=True)
@@ -101,7 +110,6 @@ def _(Hf_CHUR, Lu_CHUR, df, lam_Lu, np):
     df["2s"] = two_sigma
 
     df
-
     return Hf176_Hf177, decaimiento
 
 
@@ -141,13 +149,43 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    #Calcular pendiente de línea DM para el grupo de muestras analizado
+    """)
+    return
+
+
+@app.cell
+def _(df_good):
+    x_min = df_good['t(Ma)'].min()
+    x_max = df_good['t(Ma)'].max()
+
+
+    def chur_y(x):
+        return 0
+
+    chur_xs = (x_min, x_max)
+    chur_ys = (chur_y(x_min), chur_y(x_max))
+
+    def dm_y(x):
+        y = -0.004 * (x) + 18
+        return y
+
+    dm_xs = (x_min, x_max)
+    dm_ys = (dm_y(x_min), dm_y(x_max))
+    
+    return chur_xs, chur_ys, dm_xs, dm_ys
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     #Figura $\epsilon$-Hafnium vs Edad (Ma)
     """)
     return
 
 
 @app.cell
-def _(df_good, px):
+def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
     #Coordenadas de la línea de DM
     linea_DM_x = (0, 4500)
     linea_DM_y = (18, 0)
@@ -166,9 +204,30 @@ def _(df_good, px):
         marginal_x="rug",
         marginal_y="box",
         title="eHf vs Age (Ma)")
-   
-    fig.add_scatter(name="Depleted mantle", x=linea_DM_x, y=linea_DM_y)
-    fig.add_scatter(name="CHUR", x=linea_CHUR_x, y=linea_CHUR_y)
+
+    fig.add_trace(
+         go.Scatter(
+             x=dm_xs,
+             y=dm_ys,
+             name="DM",
+             line=dict(color="Crimson"))
+    )
+    fig.add_scatter(name="CHUR", x=chur_xs, y=chur_ys)
+
+    fig.add_annotation(
+        text="Depleted Mantle",
+        x=dm_xs[0]+3,
+        y=dm_ys[0]+1,
+        showarrow=False
+    )
+
+    fig.add_annotation(
+        text="Chondritic uniform reservoir",
+        x=chur_xs[0]+5,
+        y=chur_ys[0]-1,
+        showarrow=False
+    )
+
     fig
     return
 
