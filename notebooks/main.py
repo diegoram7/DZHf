@@ -21,7 +21,7 @@ def _():
     import plotly.graph_objects as go
     import openpyxl
     import quak
-    return go, mo, np, pd, px
+    return go, mo, np, pd, px, quak
 
 
 @app.cell(hide_code=True)
@@ -41,7 +41,7 @@ def _():
 @app.cell
 def _(DATA_LOCATION, pd):
     #Crear dataframe 
-    df = pd.read_csv(DATA_LOCATION, sep= ";", decimal=",", thousands=".")
+    df = pd.read_csv(DATA_LOCATION, sep= ";", decimal=",", thousands=".").rename(columns={"1s_error.1":"1s_error-1"})
 
     #Ajuste de nombre de columna Sample para cálculos y gráficos
     df[["sampleid", "number"]] = df['Sample'].str.split('_', expand=True, n=1) 
@@ -51,6 +51,13 @@ def _(DATA_LOCATION, pd):
 
     df
     return (df,)
+
+
+@app.cell
+def _(df, mo, quak):
+    widget = mo.ui.anywidget(quak.Widget(df))
+    widget
+    return
 
 
 @app.cell(hide_code=True)
