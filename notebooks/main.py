@@ -81,7 +81,7 @@ def _():
     #Söderlund et al. (2024)
     lam_Lu = 1.867e-11 # yr^-1
 
-
+    #Griffin et al. (2004)
     Lu_crust = 0.015
     return Hf_CHUR, Hf_DM, Lu_CHUR, Lu_DM, Lu_crust, lam_Lu
 
