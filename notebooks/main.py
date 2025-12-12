@@ -166,7 +166,7 @@ def _(df_good):
 
     dm_xs = (x_min, x_max)
     dm_ys = (dm_y(x_min), dm_y(x_max))
-    
+
     return chur_xs, chur_ys, dm_xs, dm_ys
 
 
@@ -285,7 +285,8 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
             line=dict(color="black", width=0),
             fill="toself",
             fillcolor="rgba(160, 160, 160, 0.2)",
-            name="Juvenil"
+            name="Juvenil",
+            visible="legendonly"
         )
     )
 
@@ -296,7 +297,8 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
             line=dict(color="black", width=0),
             fill="toself",
             fillcolor="rgba(160, 160, 160, 0.2)",
-            name="Corteza reciclada"
+            name="Corteza reciclada",
+            visible="legendonly"
         )
     )
     fig
