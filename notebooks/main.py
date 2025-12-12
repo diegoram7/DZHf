@@ -99,13 +99,13 @@ def _(Hf_CHUR, Lu_CHUR, df, lam_Lu, np):
     # Calcular eHf
     decaimiento = np.exp( lam_Lu * t ) - 1
     _numerador = Hf176_Hf177 - Lu176_Hf177 * decaimiento
-    CHUR_t = Hf_CHUR - Lu_CHUR * decaimiento #Calcular CHUR_t a determinada edad
+    CHUR_t = Hf_CHUR - Lu_CHUR * decaimiento #Calcular CHUR_t en tiempo t
     df["ehf"] = 10_000 * (_numerador / CHUR_t - 1)
 
-    two_sigma = 2*(pow(10, 4) * (df["1s_error.1"] / CHUR_t))
+    #Propagar errores a 2s
+    two_sigma = 2*(pow(10, 4) * (df["1s_error-1"] / CHUR_t))
     df["2s"] = two_sigma
 
-    df
     return Hf176_Hf177, decaimiento
 
 
@@ -189,8 +189,8 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
         y="ehf",
         color ="sampleid",
         error_y="2s",
-        marginal_x="rug",
-        marginal_y="box",
+        marginal_x="box",
+        marginal_y="violin",
         title="ε-Hafnio vs. Edad (Ma)")
 
     #Rectangulos de rocas fuentes
