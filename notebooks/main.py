@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.18.3"
-app = marimo.App(width="medium")
+app = marimo.App(width="medium", layout_file="layouts/main.grid.json")
 
 
 @app.cell(hide_code=True)
