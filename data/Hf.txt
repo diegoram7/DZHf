@@ -1,0 +1,16 @@
+Lu-Hf isotopic data
+
+sampleid    = Sample name 
+spot_number = Analysis number
+176Lu_177Hf = Measured 176Lu/177Hf ratio
+1s_error    = Analytical uncertainty of the 176Lu/177Hf ratio (1σ)	
+176Hf_177Hf = Measured 176Hf/177Hf ratio
+1s_error.1  = Analytical uncertainty of the 176Hf/177Hf ratio (1σ)
+t(Ga)       = Calculated age in Ga
+2s_error    = Analytical uncertainty of the t(Ga) age (2σ) (Not mandatory)
+
+
+
+
+Notes:
+Hf.csv --> converted from original Hf.xlsx  
