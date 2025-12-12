@@ -20,6 +20,7 @@ def _():
     import plotly.express as px
     import plotly.graph_objects as go
     import openpyxl
+    import quak
     return go, mo, np, pd, px
 
 
