@@ -7,7 +7,7 @@ app = marimo.App(width="medium", layout_file="layouts/main.grid.json")
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Importar librerias
+    #Import libraries
     """)
     return
 
@@ -27,7 +27,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Crear y ajustar dataframe
+    #Create and adjust dataframe
     """)
     return
 
@@ -63,7 +63,7 @@ def _(df, mo, quak):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
-    # Calcular $\epsilon$-Hafnium y propagar errores
+    # Calculate $\epsilon$-Hafnium and error propagation
     """)
     return
 
@@ -111,7 +111,7 @@ def _(Hf_CHUR, Lu_CHUR, df, lam_Lu, np):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Filtrar outliers y datos eHf con errores altos
+    #Filter outliers and high errors
     """)
     return
 
@@ -141,7 +141,7 @@ def _(df):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Calcular pendiente de línea DM para el grupo de muestras analizado
+    #Calculate DM line for time segment
     """)
     return
 
@@ -170,7 +170,7 @@ def _(df_good):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Figura $\epsilon$-Hafnio  vs Edad (Ma)
+    #$\epsilon$-Hafnio  vs Age (Ma)
     """)
     return
 
@@ -186,7 +186,7 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
         error_y="2s",
         marginal_x="box",
         marginal_y="violin",
-        title="ε-Hafnio vs. Edad (Ma)")
+        title="<b>ε-Hf vs. Age (Ma)<b>")
 
     fig.update_layout(
         xaxis = dict(
@@ -202,11 +202,15 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
             showticklabels=True,
             ticks="outside"
         ),
-        plot_bgcolor="white"
-    
+        plot_bgcolor="white",
+        yaxis_title_text="<b>εHf</b>",
+        xaxis_title_text="<b>time(Ma)</b>",
+        legend=dict(
+            title="<b>Legend<b>" 
+        )
     )
-     
-
+ 
+  
     #Rectangulos de rocas fuentes
     #Pluton de Parita
     fig.add_trace(
@@ -280,15 +284,15 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
 
     #Texto lineas DM y CHUR
     fig.add_annotation(
-        text="Depleted Mantle",
-        x=dm_xs[0]+3,
+        text="DM",
+        x=dm_xs[0]+15,
         y=dm_ys[0]+1,
         showarrow=False
     )
 
     fig.add_annotation(
-        text="Chondritic uniform reservoir",
-        x=chur_xs[0]+5,
+        text="CHUR",
+        x=chur_xs[0]+15,
         y=chur_ys[0]-1,
         showarrow=False
     )
@@ -324,7 +328,7 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    #Resultado
+    #Data analysis
     """)
     return
 
