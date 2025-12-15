@@ -34,7 +34,7 @@ def _(mo):
 
 @app.cell
 def _():
-    DATA_LOCATION = "https://diegoaramirez-glitch.github.io/DZHf/public/data/Hf.csv"
+    DATA_LOCATION = "https://diegoram7.github.io/DZHf/public/data/Hf.csv"
     return (DATA_LOCATION,)
 
 
@@ -105,7 +105,6 @@ def _(Hf_CHUR, Lu_CHUR, df, lam_Lu, np):
     #Propagar errores a 2s
     two_sigma = 2*(pow(10, 4) * (df["1s_error-1"] / CHUR_t))
     df["2s"] = two_sigma
-
     return Hf176_Hf177, decaimiento
 
 
@@ -136,7 +135,6 @@ def _(df):
     print(f"Size original: {df.shape}")
     print(f"Size filtered: {df_good.shape}")
     print(f"Ratio: {df_good.shape[0]/df.shape[0]}")
-
     return (df_good,)
 
 
@@ -166,7 +164,6 @@ def _(df_good):
 
     dm_xs = (x_min, x_max)
     dm_ys = (dm_y(x_min), dm_y(x_max))
-
     return chur_xs, chur_ys, dm_xs, dm_ys
 
 
@@ -190,6 +187,25 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
         marginal_x="box",
         marginal_y="violin",
         title="ε-Hafnio vs. Edad (Ma)")
+
+    fig.update_layout(
+        xaxis = dict(
+            showline=True,
+            showgrid=False,
+            showticklabels=True,
+            ticks="outside"
+        ),
+    
+        yaxis = dict(
+            showline=True,
+            showgrid=False,
+            showticklabels=True,
+            ticks="outside"
+        ),
+        plot_bgcolor="white"
+    
+    )
+     
 
     #Rectangulos de rocas fuentes
     #Pluton de Parita
@@ -257,10 +273,10 @@ def _(chur_xs, chur_ys, df_good, dm_xs, dm_ys, go, px):
          go.Scatter(
              x=dm_xs,
              y=dm_ys,
-             name="DM",
+             name="DM (Depleted Mantle)",
              line=dict(color="Crimson"))
     )
-    fig.add_scatter(name="CHUR", x=chur_xs, y=chur_ys)
+    fig.add_scatter(name="CHUR (Chondritic uniform reservoir)", x=chur_xs, y=chur_ys)
 
     #Texto lineas DM y CHUR
     fig.add_annotation(
