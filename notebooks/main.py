@@ -57,7 +57,6 @@ def _(DATA_LOCATION, pd):
     #Conversión de unidades de Ga a Ma
     df["t(Ma)"] = df["t(Ga)"]*1000
 
-    df
     return (df,)
 
 
@@ -388,8 +387,9 @@ def _(mo):
 
 
 @app.cell
-def _(pd):
-    df2 = pd.read_excel("")
+def _(DATA_LOCATION, pd):
+    #Create dataframe2 
+    df2 = pd.read_excel(DATA_LOCATION, sheet_name="ZrUPb")
     return
 
 
