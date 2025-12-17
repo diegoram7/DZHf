@@ -4,7 +4,8 @@ on:
     push:
         branches:
             - main
-
+env:
+    UV_NO_SOURCES: "1"
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -13,7 +14,7 @@ jobs:
             - uses: astral-sh/setup-uv@v5
             - name: 📄 Export notebook
               run: |
-                  uv run marimo export html-wasm notebooks/main.py -o site --mode run
+                  uv run --no-sources marimo export html-wasm notebooks/main.py -o site --mode run
             - run: |
                   mkdir site/public && cp -r data site/public
             - name: 📦 Upload Pages Artifact
