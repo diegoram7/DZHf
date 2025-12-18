@@ -56,7 +56,6 @@ def _(DATA_LOCATION, pd):
 
     #Conversión de unidades de Ga a Ma
     df["t(Ma)"] = df["t(Ga)"]*1000
-
     return (df,)
 
 
@@ -399,7 +398,6 @@ def _(DATA_LOCATION2, pd):
 
     #Convert Age_err to 1s
     df2["BestAge_err_1s"] = df2["BestAge_err"]/2
-
     return (df2,)
 
 
@@ -416,28 +414,27 @@ def _(np):
     def kernel_density_plot(x, best_age):
 
         N = len(best_age)
-        kde = np.zeros_like(x, dtype=float) # Creates a variable pdp with equal spaces as the defined age grid x
-        s = np.std(best_age, ddof=1)
-        #h = 1.06 * s * N ** -0.2
+        kde = np.zeros_like(x, dtype=float) # Creates a variable (kde) with equal spaces as the defined age grid x
+        s = np.std(best_age, ddof=1)        # Calculate standard deviation
+        #h = 1.06 * s * N ** -0.2           # KDE bandwidth selection
         h = 0.5
-    
-        
+
         for i, age in enumerate(best_age):
-            _exponente = np.exp(-0.5 * ((x - age)/h)**2) # un escalar derivado de una fila
-            _fracion = 1 / ((N * h) * np.sqrt(2*np.pi)) # un escalar derviado para una fila de una fila
-            kde += np.nan_to_num(_fracion * _exponente, nan=0.0)
+            _exponente = np.exp(-0.5 * ((x - age)/h)**2)         
+            _fracion = 1 / ((N * h) * np.sqrt(2*np.pi))          
+            kde += np.nan_to_num(_fracion * _exponente, nan=0.0) # Replace nan for 0
+        
         return kde 
 
-    # pdp += (1 / (err * np.sqrt(2 * np.pi))) * _exponente
     return (kernel_density_plot,)
 
 
 @app.cell
 def _(df2, kernel_density_plot, np):
     # Define age grid
-    x = np.linspace(df2["BestAge"].min() - 50, df2["BestAge"].max() + 50, 2000)
+    x = np.linspace(df2["BestAge"].min() - 50, df2["BestAge"].max() + 50, 2000) #(min, max, resolution of x)
 
-    # Compute PDP
+    # Compute KDE
     kde = kernel_density_plot(x, df2["BestAge"])
 
     kde
@@ -454,7 +451,7 @@ def _(go, kde, x):
             x=x,
             y=kde,
             mode="lines",
-            name="PDP",
+            name="KDE",
             line=dict(width=2)
         )
     )
@@ -466,6 +463,77 @@ def _(go, kde, x):
     )
 
     fig2
+    return
+
+
+@app.cell
+def _():
+    #Calculate CDP
+
+    #def cdp_curve(best_age):
+    #    ages_sorted = np.sort(best_age)     #Sort the ages from oldest to youngest
+    #    N = len(ages_sorted)
+    #    cdf = np.arange(1, N + 1) / N
+    #    return ages_sorted, cdf
+    return
+
+
+@app.cell
+def _():
+    #def CDFcalcAges(ages, x1=0, x2=4500, xdif=1): #function to compute CDF from age 0 to 4500 Ma, at 1 Ma increments
+    #    N = len(ages)                             #number of samples
+    #                       
+    #    CDF_age = np.arange(x1, x2+xdif, xdif)    #set of x-values where the CDP will be calculated
+    #    CDF = np.empty(shape=(N,len(CDF_age)))            #Creates a 2D array to store results
+    #    for i in range(N):
+    #        for j in range(len(CDF_age)):                           #loop over each age grid point
+    #            CDF[i][j] = np.sum(ages[i] <= CDF_age[j]) #how many zircons in sample i are <= to the current age
+    #        CDF[i] = CDF[i]*1.0/len(ages[i])              #convert counts into a fraction (0–1)
+    #    return CDF
+
+    return
+
+
+@app.cell
+def _(df2, np):
+    x2 = np.linspace(df2["BestAge"].min(), df2["BestAge"].max(), 2)
+
+    valores_unicos, conteos = np.unique(df2["BestAge"], return_counts=True)  # 1. Agrupar valores iguales y contar frecuencias
+    #print(valores_unicos, conteos)
+
+    frecuencia_acumulada = np.cumsum(conteos) # 2. Calcular la suma acumulada (frecuencia acumulada)
+    #print(frecuencia_acumulada)
+
+    cdf = frecuencia_acumulada / frecuencia_acumulada[-1] # 3. Convertir a probabilidad (escala 0-1) para obtener la CDF
+    print(cdf)
+    return cdf, valores_unicos
+
+
+@app.cell
+def _(cdf, go, valores_unicos):
+    # 2. Crear el gráfico
+    fig4 = go.Figure()
+
+    fig4.add_trace(go.Scatter(
+        x=valores_unicos, 
+        y=cdf,
+        mode='lines',
+        name='CDF BestAge',
+        line_shape='hv', # 'hv' crea el efecto de escalera (horizontal-vertical)
+        line=dict(color='royalblue', width=3)
+    ))
+
+    # 3. Personalización del diseño (Layout)
+    fig4.update_layout(
+        title='Función de Distribución Acumulada (CDF) de Edades',
+        xaxis_title='Edad (Ma)',
+        yaxis_title='Probabilidad Acumulada',
+        xaxis=dict(range=[25, 70]), # Tu rango de 25 a 70 Ma
+        yaxis=dict(range=[0, 1.05]),
+        template='plotly_white'
+    )
+
+    fig4
     return
 
 
