@@ -481,12 +481,12 @@ def _():
 @app.cell
 def _():
     #def CDFcalcAges(ages, x1=0, x2=4500, xdif=1): #function to compute CDF from age 0 to 4500 Ma, at 1 Ma increments
-    #    N = len(ages)                             #number of samples
+    #    N = len(ages)                             # number of samples
     #                       
-    #    CDF_age = np.arange(x1, x2+xdif, xdif)    #set of x-values where the CDP will be calculated
+    #    CDF_age = np.arange(x1, x2+xdif, xdif)            #set of x-values where the CDP will be calculated
     #    CDF = np.empty(shape=(N,len(CDF_age)))            #Creates a 2D array to store results
     #    for i in range(N):
-    #        for j in range(len(CDF_age)):                           #loop over each age grid point
+    #        for j in range(len(CDF_age)):                 #loop over each age grid point
     #            CDF[i][j] = np.sum(ages[i] <= CDF_age[j]) #how many zircons in sample i are <= to the current age
     #        CDF[i] = CDF[i]*1.0/len(ages[i])              #convert counts into a fraction (0–1)
     #    return CDF
@@ -495,41 +495,51 @@ def _():
 
 
 @app.cell
-def _(df2, np):
-    x2 = np.linspace(df2["BestAge"].min(), df2["BestAge"].max(), 2)
-
-    valores_unicos, conteos = np.unique(df2["BestAge"], return_counts=True)  # 1. Agrupar valores iguales y contar frecuencias
-    #print(valores_unicos, conteos)
-
-    frecuencia_acumulada = np.cumsum(conteos) # 2. Calcular la suma acumulada (frecuencia acumulada)
-    #print(frecuencia_acumulada)
-
-    cdf = frecuencia_acumulada / frecuencia_acumulada[-1] # 3. Convertir a probabilidad (escala 0-1) para obtener la CDF
-    print(cdf)
-    return cdf, valores_unicos
+def _(np):
+    np.cumsum([3,4,6])
+    return
 
 
 @app.cell
-def _(cdf, go, valores_unicos):
-    # 2. Crear el gráfico
+def _(df2, np):
+    unique_ages, counts = np.unique(df2["BestAge"], return_counts=True)  # 1. Agrupar valores iguales y contar frecuencias
+    print(unique_ages, counts)
+
+    acc_freq = np.cumsum(counts) # 2. Calcular la suma acumulada (frecuencia acumulada)
+    print(acc_freq)
+
+    cdf = acc_freq / acc_freq[-1] # 3. Convertir a probabilidad (escala 0-1) para obtener la CDF
+    print(cdf)
+    return cdf, unique_ages
+
+
+@app.cell
+def _(cdf, go, unique_ages):
     fig4 = go.Figure()
 
     fig4.add_trace(go.Scatter(
-        x=valores_unicos, 
+        x=unique_ages, 
         y=cdf,
         mode='lines',
         name='CDF BestAge',
         line_shape='hv', # 'hv' crea el efecto de escalera (horizontal-vertical)
         line=dict(color='royalblue', width=3)
     ))
+    fig4.add_trace(go.Scatter(
+        x=unique_ages, 
+        y=cdf,
+        mode='markers',
+        name='CDF BestAge',
+        line_shape='hv', # 'hv' crea el efecto de escalera (horizontal-vertical)
+        line=dict(color='black', width=1)
+    ))
 
-    # 3. Personalización del diseño (Layout)
     fig4.update_layout(
-        title='Función de Distribución Acumulada (CDF) de Edades',
-        xaxis_title='Edad (Ma)',
-        yaxis_title='Probabilidad Acumulada',
-        xaxis=dict(range=[25, 70]), # Tu rango de 25 a 70 Ma
-        yaxis=dict(range=[0, 1.05]),
+        title='CDP',
+        xaxis_title='Age (Ma)',
+        yaxis_title='Acc. Probability',
+        xaxis=dict(range=[0, 100]), 
+        yaxis=dict(range=[0, 1]),
         template='plotly_white'
     )
 
